@@ -2,16 +2,27 @@
 const hamburger = document.getElementById('hamburger');
 const navLinks  = document.getElementById('nav-links');
 
+function setMenuOpen(isOpen) {
+  hamburger.classList.toggle('open', isOpen);
+  navLinks.classList.toggle('open', isOpen);
+  hamburger.setAttribute('aria-expanded', isOpen);
+}
+
 hamburger.addEventListener('click', () => {
-  hamburger.classList.toggle('open');
-  navLinks.classList.toggle('open');
+  setMenuOpen(!navLinks.classList.contains('open'));
 });
 
 navLinks.querySelectorAll('a').forEach(a => {
-  a.addEventListener('click', () => {
-    hamburger.classList.remove('open');
-    navLinks.classList.remove('open');
-  });
+  a.addEventListener('click', () => setMenuOpen(false));
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') setMenuOpen(false);
+});
+
+// Close on Escape for keyboard users
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') setMenuOpen(false);
 });
 
 /* ── Navbar shadow on scroll ────────────────────── */
